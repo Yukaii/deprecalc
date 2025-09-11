@@ -48,6 +48,13 @@ interface iPhoneModel {
   usedProPrice: number
 }
 
+interface iPhoneAirModel {
+  name: string
+  basePrice: number
+  depreciationRate: number
+  usedBasePrice: number
+}
+
 interface AndroidModel {
   name: string
   basePrice: number
@@ -104,6 +111,24 @@ const iPhoneModels: iPhoneModel[] = [
     proAdjustment: -0.06,
     usedBasePrice: 18000,
     usedProPrice: 21000,
+  },
+  {
+    name: "iPhone 17",
+    basePrice: 29900,
+    proPrice: 39900,
+    depreciationRate: 0.45,
+    proAdjustment: -0.06,
+    usedBasePrice: 26000,
+    usedProPrice: 34000,
+  },
+]
+
+const iPhoneAirModels: iPhoneAirModel[] = [
+  {
+    name: "iPhone Air",
+    basePrice: 36900,
+    depreciationRate: 0.45,
+    usedBasePrice: 32000,
   },
 ]
 
@@ -277,7 +302,9 @@ export default function PhoneCalculator() {
   })
 
   const [phoneType, setPhoneType] = useState<"iphone" | "android">("iphone")
-
+  const [selectedModel, setSelectedModel] = useState<string>("iPhone 12")
+  const [purchaseMode, setPurchaseMode] = useState<"new" | "used">("used")
+  const [isProModel, setIsProModel] = useState<boolean>(false)
   const [results, setResults] = useState<CalculatorResults | null>(null)
 
   useEffect(() => {
@@ -297,6 +324,7 @@ export default function PhoneCalculator() {
       model_depreciation: mode === "used" ? "exponential" : "tiered",
       r: mode === "used" ? 0.1 : prev.r,
     }))
+    setPurchaseMode(mode)
   }
 
   const applyiPhoneModel = (modelName: string, isPro: boolean) => {
@@ -321,6 +349,28 @@ export default function PhoneCalculator() {
         cost_ship: 200,
         use_tradein: false,
       }))
+      setSelectedModel(modelName)
+      setIsProModel(isPro)
+    }
+  }
+
+  const applyiPhoneAirModel = (modelName: string) => {
+    const model = iPhoneAirModels.find((m) => m.name === modelName)
+    if (model) {
+      const price = inputs.purchase_mode === "new" ? model.basePrice : model.usedBasePrice
+      const depreciationRate = model.depreciationRate
+
+      setInputs((prev) => ({
+        ...prev,
+        P_buy: price,
+        r: inputs.purchase_mode === "used" ? 0.1 : depreciationRate,
+        model_depreciation: inputs.purchase_mode === "used" ? "exponential" : "tiered",
+        fee_pct: 0.03,
+        cost_ship: 200,
+        use_tradein: false,
+      }))
+      setSelectedModel(modelName)
+      setIsProModel(false)
     }
   }
 
@@ -470,39 +520,62 @@ export default function PhoneCalculator() {
             </CardHeader>
             <CardContent>
               {phoneType === "iphone" ? (
-                <div className="grid md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {iPhoneModels.map((model) => (
-                    <div key={model.name} className="space-y-2">
-                      <div className="text-sm font-medium text-center">{model.name}</div>
-                      <div className="grid grid-cols-1 gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => applyiPhoneModel(model.name, false)}
-                          className="text-xs h-8"
-                        >
-                          標準版
-                          <div className="text-xs text-muted-foreground ml-1">
-                            {formatCurrency(inputs.purchase_mode === "new" ? model.basePrice : model.usedBasePrice)}
-                          </div>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => applyiPhoneModel(model.name, true)}
-                          className="text-xs h-8"
-                        >
-                          Pro 版
-                          <div className="text-xs text-muted-foreground ml-1">
-                            {formatCurrency(inputs.purchase_mode === "new" ? model.proPrice : model.usedProPrice)}
-                          </div>
-                        </Button>
+                    <Button
+                      key={model.name}
+                      variant={selectedModel === model.name ? "default" : "outline"}
+                      className="h-auto p-4 flex flex-col items-start gap-2"
+                      onClick={() => {
+                        setSelectedModel(model.name)
+                        if (purchaseMode === "new") {
+                          setInputs((prev) => ({ ...prev, P_buy: isProModel ? model.proPrice : model.basePrice }))
+                          setInputs((prev) => ({ ...prev, model_depreciation: "tiered" }))
+                        } else {
+                          setInputs((prev) => ({
+                            ...prev,
+                            P_buy: isProModel ? model.usedProPrice : model.usedBasePrice,
+                          }))
+                        }
+                        setInputs((prev) => ({
+                          ...prev,
+                          r: model.depreciationRate + (isProModel ? model.proAdjustment : 0),
+                        }))
+                      }}
+                    >
+                      <div className="font-medium">{model.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {purchaseMode === "new"
+                          ? `NT$ ${model.basePrice.toLocaleString()}`
+                          : `NT$ ${model.usedBasePrice.toLocaleString()}`}
                       </div>
-                      <div className="text-xs text-center text-muted-foreground">
-                        年折舊 {(model.depreciationRate * 100).toFixed(1)}%
-                        {model.name === "iPhone 16" && <div className="text-xs">(預估值)</div>}
+                    </Button>
+                  ))}
+
+                  {/* iPhone Air section */}
+                  {iPhoneAirModels.map((model) => (
+                    <Button
+                      key={model.name}
+                      variant={selectedModel === model.name ? "default" : "outline"}
+                      className="h-auto p-4 flex flex-col items-start gap-2"
+                      onClick={() => {
+                        setSelectedModel(model.name)
+                        if (purchaseMode === "new") {
+                          setInputs((prev) => ({ ...prev, P_buy: model.basePrice }))
+                          setInputs((prev) => ({ ...prev, model_depreciation: "tiered" }))
+                        } else {
+                          setInputs((prev) => ({ ...prev, P_buy: model.usedBasePrice }))
+                        }
+                        setInputs((prev) => ({ ...prev, r: model.depreciationRate }))
+                      }}
+                    >
+                      <div className="font-medium">{model.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {purchaseMode === "new"
+                          ? `NT$ ${model.basePrice.toLocaleString()}`
+                          : `NT$ ${model.usedBasePrice.toLocaleString()}`}
                       </div>
-                    </div>
+                    </Button>
                   ))}
                 </div>
               ) : (
