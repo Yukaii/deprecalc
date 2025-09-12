@@ -1,17 +1,16 @@
 "use client"
 
 import { Separator } from "@/components/ui/separator"
-
 import { Label } from "@/components/ui/label"
-
 import { CardDescription } from "@/components/ui/card"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Smartphone, Calculator, TrendingDown, Github, ShoppingCart } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { useTranslations } from 'next-intl'
 
 interface CalculatorInputs {
   P_buy: number
@@ -285,6 +284,16 @@ function totalCostHold(params: CalculatorInputs): CalculatorResults {
 }
 
 export default function PhoneCalculator() {
+  const t = useTranslations()
+  const headerT = useTranslations('header')
+  const phoneTypeT = useTranslations('phoneType')
+  const purchaseModeT = useTranslations('purchaseMode')
+  const phoneModelsT = useTranslations('phoneModels')
+  const calculatorT = useTranslations('calculator')
+  const resultsT = useTranslations('results')
+  const presetsT = useTranslations('presets')
+  const footerT = useTranslations('footer')
+  const commonT = useTranslations('common')
   const [inputs, setInputs] = useState<CalculatorInputs>({
     P_buy: 30000,
     T: 3,
@@ -418,16 +427,19 @@ export default function PhoneCalculator() {
         <div className="mx-auto max-w-6xl space-y-8">
           <div className="flex justify-between items-center">
             <div></div>
-            <ThemeToggle />
+            <div className="flex gap-2">
+              <LanguageSwitcher />
+              <ThemeToggle />
+            </div>
           </div>
 
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-3">
               <Smartphone className="h-8 w-8 text-primary" />
-              <h1 className="text-4xl font-bold text-foreground">手機持有成本計算器</h1>
+              <h1 className="text-4xl font-bold text-foreground">{headerT('title')}</h1>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              計算您的 iPhone 或 Android 手機在持有期間的真實成本，包含折舊、手續費、維護費用等各項支出
+              {headerT('description')}
             </p>
           </div>
 
@@ -435,9 +447,9 @@ export default function PhoneCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Smartphone className="h-5 w-5" />
-                手機類型選擇
+                {phoneTypeT('title')}
               </CardTitle>
-              <CardDescription>選擇您要計算的手機類型</CardDescription>
+              <CardDescription>{phoneTypeT('description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
@@ -446,11 +458,11 @@ export default function PhoneCalculator() {
                   onClick={() => setPhoneType("iphone")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">iPhone</div>
+                  <div className="font-medium">{phoneTypeT('iphone')}</div>
                   <div
                     className={`text-sm ${phoneType === "iphone" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    Apple iPhone 系列手機
+                    {phoneTypeT('iphoneDesc')}
                   </div>
                 </Button>
                 <Button
@@ -458,11 +470,11 @@ export default function PhoneCalculator() {
                   onClick={() => setPhoneType("android")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">Android</div>
+                  <div className="font-medium">{phoneTypeT('android')}</div>
                   <div
                     className={`text-sm ${phoneType === "android" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    Samsung、Google Pixel、OnePlus 等
+                    {phoneTypeT('androidDesc')}
                   </div>
                 </Button>
               </div>
@@ -473,9 +485,9 @@ export default function PhoneCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <ShoppingCart className="h-5 w-5" />
-                購買方式選擇
+                {purchaseModeT('title')}
               </CardTitle>
-              <CardDescription>選擇您要計算全新機或二手機的持有成本</CardDescription>
+              <CardDescription>{purchaseModeT('description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
@@ -484,11 +496,11 @@ export default function PhoneCalculator() {
                   onClick={() => handlePurchaseModeChange("new")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">購買全新機</div>
+                  <div className="font-medium">{purchaseModeT('new')}</div>
                   <div
                     className={`text-sm ${inputs.purchase_mode === "new" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    從官方或授權經銷商購買全新手機
+                    {purchaseModeT('newDesc')}
                   </div>
                 </Button>
                 <Button
@@ -496,11 +508,11 @@ export default function PhoneCalculator() {
                   onClick={() => handlePurchaseModeChange("used")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">購買二手機</div>
+                  <div className="font-medium">{purchaseModeT('used')}</div>
                   <div
                     className={`text-sm ${inputs.purchase_mode === "used" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    從二手市場購買使用過的手機
+                    {purchaseModeT('usedDesc')}
                   </div>
                 </Button>
               </div>
