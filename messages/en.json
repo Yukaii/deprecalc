@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "title": "DeprecCalc - Phone Depreciation Cost Calculator",
+    "description": "Professional tool for accurately calculating iPhone & Android phone ownership costs. Supports new & used phone purchases, tiered depreciation models to help you make informed buying decisions.",
+    "keywords": "iPhone, Android, Samsung, Pixel, depreciation, cost calculator, used phone, ownership cost, depreciation rate"
+  },
+  "common": {
+    "loading": "Loading...",
+    "github": "GitHub",
+    "openSource": "Open Source Project"
+  },
+  "header": {
+    "title": "Phone Ownership Cost Calculator",
+    "description": "Calculate the true cost of owning your iPhone or Android phone during the holding period, including depreciation, fees, maintenance costs, and other expenses"
+  },
+  "phoneType": {
+    "title": "Phone Type Selection",
+    "description": "Select the type of phone you want to calculate",
+    "iphone": "iPhone",
+    "iphoneDesc": "Apple iPhone series phones",
+    "android": "Android",
+    "androidDesc": "Samsung, Google Pixel, OnePlus, etc."
+  },
+  "purchaseMode": {
+    "title": "Purchase Mode Selection",
+    "description": "Choose whether to calculate ownership costs for new or used phones",
+    "new": "Buy New Phone",
+    "newDesc": "Purchase new phone from official or authorized dealers",
+    "used": "Buy Used Phone",
+    "usedDesc": "Purchase used phone from second-hand market"
+  },
+  "phoneModels": {
+    "title": "Popular {type} Models",
+    "description": "Select your {type} model to automatically apply corresponding {mode} prices and depreciation rates",
+    "official": "official",
+    "secondHand": "second-hand market",
+    "standard": "Standard",
+    "pro": "Pro/Ultra",
+    "yearlyDepreciation": "Yearly depreciation",
+    "flagship": "Flagship",
+    "mid": "Mid-range",
+    "budget": "Budget",
+    "androidDepreciationNote": {
+      "title": "Android Depreciation Rate Explanation:",
+      "flagship": "• Flagship phones (Galaxy S/Pixel): 50-65% annual depreciation, Pro versions typically retain 5% more value",
+      "mid": "• Mid-range phones: ~50% annual depreciation, affordable but lower value retention",
+      "used": "• Used Android phones recommended to use 10% constant depreciation rate (past initial depreciation period)"
+    }
+  },
+  "calculator": {
+    "title": "Calculator Parameter Settings",
+    "description": "Please enter your phone purchase and usage information",
+    "basicInfo": "Basic Information",
+    "purchasePrice": "Purchase Price",
+    "usedPrice": "Used Purchase Price",
+    "holdingYears": "Holding Years",
+    "depreciationModel": "Depreciation Model",
+    "depreciationMethod": "Depreciation Calculation Method",
+    "tieredDepreciation": "Tiered Depreciation (Recommended)",
+    "exponentialDepreciation": "Exponential Depreciation",
+    "linearDepreciation": "Linear Depreciation",
+    "tieredNote": {
+      "title": "Tiered Depreciation Explanation:",
+      "year1": "• Year 1: 45% depreciation (new phones depreciate fastest)",
+      "year2": "• Year 2: 25% depreciation (stabilizing)",
+      "year3": "• Year 3 onwards: 10% annual depreciation (stable period)"
+    },
+    "yearlyDepreciationRate": "Annual Depreciation Rate (%)",
+    "quickDepreciationSet": "Quick Depreciation Rate Setting",
+    "optimistic": "Optimistic 12%",
+    "baseline": "Baseline 15%",
+    "conservative": "Conservative 20%",
+    "calibrationNote": "* Can refer to adjacent generation used price differences for calibration",
+    "yearlyDepreciationAmount": "Annual Depreciation Amount (NT$)",
+    "sellingCost": "Selling Cost",
+    "quickPlatformFee": "Quick Platform Fee Setting",
+    "ruten": "Ruten Auction",
+    "rutenFee": "3% + shipping",
+    "shopee": "Shopee",
+    "shopeeFee": "7.5% (non-promo)",
+    "shopeePromo": "Shopee Promotion",
+    "shopeePromoFee": "9.5% (7.5%+2%)",
+    "otherPlatform": "Other Platforms",
+    "otherPlatformFee": "5% + shipping",
+    "shopeeFeeNote": {
+      "title": "Shopee Fee Explanation:",
+      "normal": "• Non-promotion period: Transaction fee 5.5% + Payment service fee 2% = 7.5%",
+      "promo": "• Promotion period: Transaction fee 7.5% + Payment service fee 2% = 9.5%",
+      "limit": "• Some items have NT$15,000 fee calculation limit"
+    },
+    "platformFee": "Platform Fee (%)",
+    "shippingCost": "Shipping/Packaging (NT$)",
+    "tradeInRecycle": "Use Store Trade-in Recycling",
+    "tradeInNote": "(e.g., US3C, Landtop, etc.)",
+    "tradeInRatio": "Trade-in Recycling Ratio (%)",
+    "maintenanceCost": "Maintenance Cost",
+    "yearlyMaintenance": "Annual Maintenance Fee (NT$)",
+    "batteryReplacement": "Battery Repair Fee (NT$)",
+    "batteryNote": "(approx. 2,000-3,350 NT$)"
+  },
+  "results": {
+    "title": "Calculation Results",
+    "description": "Your phone ownership cost analysis",
+    "totalCost": "Total Ownership Cost",
+    "monthlyCost": "Monthly Average Cost",
+    "detailedAnalysis": "Detailed Analysis",
+    "estimatedPrice": "Estimated price after {years} years",
+    "netResale": "Net amount after sale",
+    "annualCost": "Annual ownership cost",
+    "npvTotalCost": "Net present value total cost",
+    "costBreakdown": "Cost Breakdown",
+    "purchaseCost": "Purchase cost",
+    "resaleValue": "Resale value",
+    "maintenanceFee": "Maintenance fee",
+    "batteryRepair": "Battery repair"
+  },
+  "presets": {
+    "title": "Quick Preset Scenarios",
+    "description": "Click the buttons below to quickly apply common usage scenarios",
+    "yearlyUpgrade": "Annual upgrade",
+    "yearlyUpgradeDesc": "High depreciation rate, short holding period",
+    "longTerm": "Long-term use",
+    "longTermDesc": "Including maintenance and battery replacement",
+    "secondHandMarket": "Second-hand market sale",
+    "secondHandMarketDesc": "Sell through auction platforms",
+    "tradeInRecycle": "Trade-in recycling",
+    "tradeInRecycleDesc": "Direct store recycling and exchange",
+    "usedLongTerm": "Used phone long-term use",
+    "usedLongTermDesc": "Galaxy S23 held for 3 years with battery replacement",
+    "optimisticScenario": "Optimistic scenario",
+    "optimisticScenarioDesc": "Galaxy S24 low depreciation rate",
+    "conservativeScenario": "Conservative scenario",
+    "conservativeScenarioDesc": "Pixel 8 high depreciation rate",
+    "storeRecycle": "Store recycling",
+    "storeRecycleDesc": "US3C/Landtop, etc. recycling"
+  },
+  "footer": {
+    "projectName": "DeprecCalc - Phone Depreciation Cost Calculator"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "title": "DeprecCalc - 手機折舊成本計算器",
+    "description": "精確計算 iPhone 與 Android 手機持有成本的專業工具。支援新機與二手機購買，階段式折舊模型，幫助您做出明智的購機決策。",
+    "keywords": "iPhone, Android, Samsung, Pixel, 折舊, 成本計算, 二手機, 持有成本, 折舊率"
+  },
+  "common": {
+    "loading": "Loading...",
+    "github": "GitHub",
+    "openSource": "開源專案"
+  },
+  "header": {
+    "title": "手機持有成本計算器",
+    "description": "計算您的 iPhone 或 Android 手機在持有期間的真實成本，包含折舊、手續費、維護費用等各項支出"
+  },
+  "phoneType": {
+    "title": "手機類型選擇",
+    "description": "選擇您要計算的手機類型",
+    "iphone": "iPhone",
+    "iphoneDesc": "Apple iPhone 系列手機",
+    "android": "Android",
+    "androidDesc": "Samsung、Google Pixel、OnePlus 等"
+  },
+  "purchaseMode": {
+    "title": "購買方式選擇",
+    "description": "選擇您要計算全新機或二手機的持有成本",
+    "new": "購買全新機",
+    "newDesc": "從官方或授權經銷商購買全新手機",
+    "used": "購買二手機",
+    "usedDesc": "從二手市場購買使用過的手機"
+  },
+  "phoneModels": {
+    "title": "常用{type}機型",
+    "description": "選擇您的{type}機型，自動套用對應的{mode}價格和折舊率",
+    "official": "官方",
+    "secondHand": "二手市場",
+    "standard": "標準版",
+    "pro": "Pro/Ultra",
+    "yearlyDepreciation": "年折舊",
+    "flagship": "旗艦",
+    "mid": "中階",
+    "budget": "平價",
+    "androidDepreciationNote": {
+      "title": "Android 折舊率說明：",
+      "flagship": "• 旗艦機 (Galaxy S/Pixel): 50-65% 年折舊率，Pro 版通常保值 5% 更好",
+      "mid": "• 中階機: 約 50% 年折舊率，價格親民但保值性較低",
+      "used": "• 二手 Android 建議使用 10% 恆定折舊率（已過初期貶值期）"
+    }
+  },
+  "calculator": {
+    "title": "計算參數設定",
+    "description": "請輸入您的手機購買和使用相關資訊",
+    "basicInfo": "基本資訊",
+    "purchasePrice": "購買價格",
+    "usedPrice": "二手購入價格",
+    "holdingYears": "持有年數",
+    "depreciationModel": "折舊模型",
+    "depreciationMethod": "折舊計算方式",
+    "tieredDepreciation": "階段式折舊 (推薦)",
+    "exponentialDepreciation": "指數折舊",
+    "linearDepreciation": "線性折舊",
+    "tieredNote": {
+      "title": "階段式折舊說明：",
+      "year1": "• 第1年：45% 折舊（新機貶值最快）",
+      "year2": "• 第2年：25% 折舊（趨於穩定）",
+      "year3": "• 第3年後：每年10% 折舊（穩定期）"
+    },
+    "yearlyDepreciationRate": "年折舊率 (%)",
+    "quickDepreciationSet": "快速設定折舊率",
+    "optimistic": "樂觀 12%",
+    "baseline": "基準 15%",
+    "conservative": "保守 20%",
+    "calibrationNote": "* 可參考相鄰世代二手價差異進行校正",
+    "yearlyDepreciationAmount": "每年折舊金額 (NT$)",
+    "sellingCost": "賣出成本",
+    "quickPlatformFee": "快速設定平台手續費",
+    "ruten": "露天拍賣",
+    "rutenFee": "3% + 運費",
+    "shopee": "蝦皮購物",
+    "shopeeFee": "7.5% (非促銷)",
+    "shopeePromo": "蝦皮促銷期",
+    "shopeePromoFee": "9.5% (7.5%+2%)",
+    "otherPlatform": "其他平台",
+    "otherPlatformFee": "5% + 運費",
+    "shopeeFeeNote": {
+      "title": "蝦皮手續費說明：",
+      "normal": "• 非促銷期：成交手續費 5.5% + 金流服務費 2% = 7.5%",
+      "promo": "• 促銷檔期：成交手續費 7.5% + 金流服務費 2% = 9.5%",
+      "limit": "• 部分商品有 NT$15,000 手續費計算上限"
+    },
+    "platformFee": "平台手續費 (%)",
+    "shippingCost": "運費/包材 (NT$)",
+    "tradeInRecycle": "使用門市 Trade-in 回收",
+    "tradeInNote": "(如US3C、Landtop等)",
+    "tradeInRatio": "Trade-in 回收比例 (%)",
+    "maintenanceCost": "維護成本",
+    "yearlyMaintenance": "年維護費 (NT$)",
+    "batteryReplacement": "電池維修費 (NT$)",
+    "batteryNote": "(約2,000-3,350元)"
+  },
+  "results": {
+    "title": "計算結果",
+    "description": "您的手機持有成本分析",
+    "totalCost": "總持有成本",
+    "monthlyCost": "月均成本",
+    "detailedAnalysis": "詳細分析",
+    "estimatedPrice": "預估 {years} 年後市價",
+    "netResale": "賣出後實得金額",
+    "annualCost": "年均持有成本",
+    "npvTotalCost": "折現後總成本",
+    "costBreakdown": "成本組成",
+    "purchaseCost": "購買成本",
+    "resaleValue": "回收價值",
+    "maintenanceFee": "維護費用",
+    "batteryRepair": "電池維修"
+  },
+  "presets": {
+    "title": "快速預設情境",
+    "description": "點擊下方按鈕快速套用常見的使用情境",
+    "yearlyUpgrade": "每年換新機",
+    "yearlyUpgradeDesc": "高折舊率，短持有期",
+    "longTerm": "長期使用",
+    "longTermDesc": "包含維護和電池更換",
+    "secondHandMarket": "二手市場售出",
+    "secondHandMarketDesc": "透過拍賣平台賣出",
+    "tradeInRecycle": "Trade-in 回收",
+    "tradeInRecycleDesc": "門市直接回收換購",
+    "usedLongTerm": "二手機長期使用",
+    "usedLongTermDesc": "Galaxy S23 持有3年含換電池",
+    "optimisticScenario": "樂觀情境",
+    "optimisticScenarioDesc": "Galaxy S24 低折舊率",
+    "conservativeScenario": "保守情境",
+    "conservativeScenarioDesc": "Pixel 8 高折舊率",
+    "storeRecycle": "門市回收",
+    "storeRecycleDesc": "US3C/Landtop等回收"
+  },
+  "footer": {
+    "projectName": "DeprecCalc - 手機折舊成本計算器"
+  }
+}
