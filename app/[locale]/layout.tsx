@@ -9,16 +9,20 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-
-const locales = ['en', 'ja', 'zh-TW']
+import {routing} from '@/routing'
 
 export async function generateMetadata({
   params: { locale }
 }: {
   params: { locale: string }
 }): Promise<Metadata> {
+  // Validate that the incoming `locale` parameter is valid
+  if (!routing.locales.includes(locale as any)) {
+    notFound()
+  }
+  
   const t = await getTranslations({ locale, namespace: 'metadata' })
-
+  
   return {
     title: t('title'),
     description: t('description'),
@@ -40,7 +44,9 @@ export default async function LocaleLayout({
   params: { locale: string }
 }>) {
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale)) notFound()
+  if (!routing.locales.includes(locale as any)) {
+    notFound()
+  }
 
   // Providing all messages to the client
   // side is the easiest way to get started
