@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "title": "DeprecCalc - スマホ減価償却計算機",
+    "description": "iPhoneとAndroidスマホの所有コストを正確に計算する専門ツール。新品・中古購入に対応し、段階的減価償却モデルで賢い購入決定をサポートします。",
+    "keywords": "iPhone, Android, Samsung, Pixel, 減価償却, コスト計算, 中古スマホ, 所有コスト, 減価償却率"
+  },
+  "header": {
+    "title": "スマホ所有コスト計算機",
+    "description": "iPhoneまたはAndroidスマホの所有期間中の真のコストを計算。減価償却、手数料、メンテナンス費用などすべての支出を含みます"
+  },
+  "phoneType": {
+    "title": "スマホタイプ選択",
+    "description": "計算したいスマホのタイプを選択してください",
+    "iphone": "iPhone",
+    "iphoneDesc": "Apple iPhoneシリーズ",
+    "android": "Android",
+    "androidDesc": "Samsung、Google Pixel、OnePlusなど"
+  },
+  "purchaseMode": {
+    "title": "購入方法選択",
+    "description": "新品または中古スマホの所有コストを計算するか選択してください",
+    "new": "新品を購入",
+    "newDesc": "公式または正規販売店から新品スマホを購入",
+    "used": "中古を購入",
+    "usedDesc": "中古市場から使用済みスマホを購入"
+  },
+  "phoneModel": {
+    "title": "一般的な{type}モデル",
+    "description": "{type}モデルを選択すると、対応する{mode}価格と減価償却率が自動的に適用されます",
+    "official": "公式",
+    "secondhand": "中古市場",
+    "androidDepreciationInfo": {
+      "title": "Android減価償却率について:",
+      "flagship": "• フラッグシップ (Galaxy S/Pixel): 年間50-65%の減価償却率、Pro版は通常5%ほど価値保持が良い",
+      "midrange": "• ミッドレンジ: 約50%の年間減価償却率、手頃な価格だが価値保持は低め",
+      "used": "• 中古Androidは10%の一定減価償却率を推奨(初期減価期間を過ぎているため)"
+    }
+  },
+  "calculator": {
+    "title": "計算パラメータ設定",
+    "description": "スマホの購入・使用に関する情報を入力してください",
+    "basicInfo": "基本情報",
+    "purchasePrice": "購入価格",
+    "usedPurchasePrice": "中古購入価格",
+    "holdingYears": "所有年数",
+    "depreciationModel": "減価償却モデル",
+    "depreciationMethod": "減価償却計算方法",
+    "tieredDepreciation": "段階的減価償却(推奨)",
+    "exponentialDepreciation": "指数減価償却",
+    "linearDepreciation": "線形減価償却",
+    "tieredDepreciationInfo": {
+      "title": "段階的減価償却の説明:",
+      "year1": "• 1年目: 45%減価償却(新品は最も早く減価)",
+      "year2": "• 2年目: 25%減価償却(安定化傾向)",
+      "year3": "• 3年目以降: 毎年10%減価償却(安定期)"
+    },
+    "annualDepreciationRate": "年間減価償却率(%)",
+    "quickSetDepreciationRate": "減価償却率クイック設定",
+    "optimistic": "楽観的 12%",
+    "baseline": "基準 15%",
+    "conservative": "保守的 20%",
+    "depreciationNote": "※隣接世代の中古価格差を参考に補正可能",
+    "annualDepreciationAmount": "年間減価償却額(NT$)",
+    "resaleCost": "売却コスト",
+    "quickSetPlatformFee": "プラットフォーム手数料クイック設定",
+    "ruten": "露天オークション",
+    "rutenDesc": "3% + 送料",
+    "shopee": "蝦皮ショッピング",
+    "shopeeDesc": "7.5%(非プロモ期)",
+    "shopeePromo": "蝦皮プロモ期間",
+    "shopeePromoDesc": "9.5%(7.5%+2%)",
+    "otherPlatform": "その他プラットフォーム",
+    "otherPlatformDesc": "5% + 送料",
+    "shopeeFeeInfo": {
+      "title": "蝦皮手数料について:",
+      "normal": "• 非プロモ期: 取引手数料5.5% + 決済サービス料2% = 7.5%",
+      "promo": "• プロモ期: 取引手数料7.5% + 決済サービス料2% = 9.5%",
+      "cap": "• 一部商品はNT$15,000の手数料計算上限あり"
+    },
+    "platformFee": "プラットフォーム手数料(%)",
+    "shippingFee": "送料/梱包材(NT$)",
+    "useTradeIn": "店舗Trade-in下取りを利用",
+    "tradeInNote": "(US3C、Landtopなど)",
+    "tradeInRatio": "Trade-in下取り比率(%)",
+    "maintenanceCost": "メンテナンスコスト",
+    "annualMaintenanceFee": "年間メンテナンス費(NT$)",
+    "batteryReplacementFee": "バッテリー交換費(NT$)",
+    "batteryReplacementNote": "(約2,000-3,350 NT$)"
+  },
+  "results": {
+    "title": "計算結果",
+    "description": "スマホの所有コスト分析",
+    "totalOwnershipCost": "総所有コスト",
+    "monthlyAverageCost": "月平均コスト",
+    "detailedAnalysis": "詳細分析",
+    "estimatedPriceAfterYears": "{years}年後の推定価格",
+    "netResaleAmount": "売却後の手取り額",
+    "annualOwnershipCost": "年間所有コスト",
+    "discountedTotalCost": "割引後総コスト",
+    "costBreakdown": "コスト内訳",
+    "purchaseCost": "購入コスト",
+    "resaleValue": "売却価値",
+    "maintenanceFee": "メンテナンス費",
+    "batteryReplacement": "バッテリー交換"
+  },
+  "presets": {
+    "title": "クイックプリセットシナリオ",
+    "description": "下のボタンをクリックして一般的な使用シナリオを素早く適用",
+    "iphoneYearly": {
+      "title": "毎年機種変更",
+      "description": "高減価償却率、短期所有"
+    },
+    "iphoneLongTerm": {
+      "title": "長期使用",
+      "description": "メンテナンスとバッテリー交換を含む"
+    },
+    "iphoneSecondhand": {
+      "title": "中古市場で売却",
+      "description": "オークションプラットフォームで売却"
+    },
+    "iphoneTradeIn": {
+      "title": "Trade-in下取り",
+      "description": "店舗で直接下取り交換"
+    },
+    "androidUsedLongTerm": {
+      "title": "中古長期使用",
+      "description": "Galaxy S23を3年所有、バッテリー交換含む"
+    },
+    "androidOptimistic": {
+      "title": "楽観シナリオ",
+      "description": "Galaxy S24低減価償却率"
+    },
+    "androidConservative": {
+      "title": "保守シナリオ",
+      "description": "Pixel 8高減価償却率"
+    },
+    "androidTradeIn": {
+      "title": "店舗下取り",
+      "description": "US3C/Landtopなど下取り"
+    }
+  },
+  "footer": {
+    "openSource": "オープンソースプロジェクト",
+    "github": "GitHub",
+    "projectName": "DeprecCalc - スマホ減価償却計算機"
+  },
+  "phoneModels": {
+    "midrangeAndroid": "ミッドレンジAndroid"
+  },
+  "common": {
+    "currency": "NT$",
+    "standard": "標準版",
+    "pro": "Pro/Ultra",
+    "annualDepreciation": "年間減価償却",
+    "flagship": "フラッグシップ",
+    "midrange": "ミッドレンジ",
+    "budget": "エントリー"
+  }
+}

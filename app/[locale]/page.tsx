@@ -1,17 +1,16 @@
 "use client"
 
 import { Separator } from "@/components/ui/separator"
-
 import { Label } from "@/components/ui/label"
-
 import { CardDescription } from "@/components/ui/card"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Smartphone, Calculator, TrendingDown, Github, ShoppingCart } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useTranslations } from "next-intl"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 interface CalculatorInputs {
   P_buy: number
@@ -181,14 +180,6 @@ const androidModels: AndroidModel[] = [
     usedBasePrice: 10000,
     category: "flagship",
   },
-  {
-    name: "中階 Android",
-    basePrice: 15000,
-    depreciationRate: 0.5,
-    proAdjustment: 0,
-    usedBasePrice: 6000,
-    category: "mid",
-  },
 ]
 
 function priceAfterYearsExp(P_buy: number, r: number, years: number): number {
@@ -206,13 +197,10 @@ function priceAfterYearsTiered(P_buy: number, years: number): number {
     let yearlyRate: number
 
     if (year === 1) {
-      // First year: high depreciation (40-50%)
       yearlyRate = 0.45
     } else if (year === 2) {
-      // Second year: moderate depreciation (20-30%)
       yearlyRate = 0.25
     } else {
-      // Third year onwards: stable depreciation (~10%)
       yearlyRate = 0.1
     }
 
@@ -252,7 +240,6 @@ function totalCostHold(params: CalculatorInputs): CalculatorResults {
   } else if (model_depreciation === "linear") {
     P_t = priceAfterYearsLinear(P_buy, linear_d, T)
   } else {
-    // tiered depreciation
     P_t = priceAfterYearsTiered(P_buy, T)
   }
 
@@ -285,6 +272,8 @@ function totalCostHold(params: CalculatorInputs): CalculatorResults {
 }
 
 export default function PhoneCalculator() {
+  const t = useTranslations()
+
   const [inputs, setInputs] = useState<CalculatorInputs>({
     P_buy: 30000,
     T: 3,
@@ -320,7 +309,6 @@ export default function PhoneCalculator() {
     setInputs((prev) => ({
       ...prev,
       purchase_mode: mode,
-      // Set depreciation model to constant 10% for used phones (typically 2+ years old)
       model_depreciation: mode === "used" ? "exponential" : "tiered",
       r: mode === "used" ? 0.1 : prev.r,
     }))
@@ -392,7 +380,7 @@ export default function PhoneCalculator() {
         P_buy: price,
         r: inputs.purchase_mode === "used" ? 0.1 : depreciationRate,
         model_depreciation: inputs.purchase_mode === "used" ? "exponential" : "exponential",
-        fee_pct: 0.075, // Default to Shopee for Android
+        fee_pct: 0.075,
         cost_ship: 0,
         use_tradein: false,
       }))
@@ -412,32 +400,42 @@ export default function PhoneCalculator() {
     }).format(amount)
   }
 
+  // Add midrange Android model with translation
+  const midrangeAndroidModel: AndroidModel = {
+    name: t("phoneModels.midrangeAndroid"),
+    basePrice: 15000,
+    depreciationRate: 0.5,
+    proAdjustment: 0,
+    usedBasePrice: 6000,
+    category: "mid",
+  }
+
+  const allAndroidModels = [...androidModels, midrangeAndroidModel]
+
   return (
     <div className="min-h-screen bg-background">
       <div className="p-4">
         <div className="mx-auto max-w-6xl space-y-8">
           <div className="flex justify-between items-center">
-            <div></div>
+            <LanguageSwitcher />
             <ThemeToggle />
           </div>
 
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-3">
               <Smartphone className="h-8 w-8 text-primary" />
-              <h1 className="text-4xl font-bold text-foreground">手機持有成本計算器</h1>
+              <h1 className="text-4xl font-bold text-foreground">{t("header.title")}</h1>
             </div>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              計算您的 iPhone 或 Android 手機在持有期間的真實成本，包含折舊、手續費、維護費用等各項支出
-            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("header.description")}</p>
           </div>
 
           <Card className="bg-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Smartphone className="h-5 w-5" />
-                手機類型選擇
+                {t("phoneType.title")}
               </CardTitle>
-              <CardDescription>選擇您要計算的手機類型</CardDescription>
+              <CardDescription>{t("phoneType.description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
@@ -446,11 +444,11 @@ export default function PhoneCalculator() {
                   onClick={() => setPhoneType("iphone")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">iPhone</div>
+                  <div className="font-medium">{t("phoneType.iphone")}</div>
                   <div
                     className={`text-sm ${phoneType === "iphone" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    Apple iPhone 系列手機
+                    {t("phoneType.iphoneDesc")}
                   </div>
                 </Button>
                 <Button
@@ -458,11 +456,11 @@ export default function PhoneCalculator() {
                   onClick={() => setPhoneType("android")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">Android</div>
+                  <div className="font-medium">{t("phoneType.android")}</div>
                   <div
                     className={`text-sm ${phoneType === "android" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    Samsung、Google Pixel、OnePlus 等
+                    {t("phoneType.androidDesc")}
                   </div>
                 </Button>
               </div>
@@ -473,9 +471,9 @@ export default function PhoneCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <ShoppingCart className="h-5 w-5" />
-                購買方式選擇
+                {t("purchaseMode.title")}
               </CardTitle>
-              <CardDescription>選擇您要計算全新機或二手機的持有成本</CardDescription>
+              <CardDescription>{t("purchaseMode.description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
@@ -484,11 +482,11 @@ export default function PhoneCalculator() {
                   onClick={() => handlePurchaseModeChange("new")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">購買全新機</div>
+                  <div className="font-medium">{t("purchaseMode.new")}</div>
                   <div
                     className={`text-sm ${inputs.purchase_mode === "new" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    從官方或授權經銷商購買全新手機
+                    {t("purchaseMode.newDesc")}
                   </div>
                 </Button>
                 <Button
@@ -496,11 +494,11 @@ export default function PhoneCalculator() {
                   onClick={() => handlePurchaseModeChange("used")}
                   className="h-auto p-4 flex-col items-start"
                 >
-                  <div className="font-medium">購買二手機</div>
+                  <div className="font-medium">{t("purchaseMode.used")}</div>
                   <div
                     className={`text-sm ${inputs.purchase_mode === "used" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
                   >
-                    從二手市場購買使用過的手機
+                    {t("purchaseMode.usedDesc")}
                   </div>
                 </Button>
               </div>
@@ -511,11 +509,15 @@ export default function PhoneCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Smartphone className="h-5 w-5" />
-                常用{phoneType === "iphone" ? " iPhone" : " Android"} 機型
+                {t("phoneModel.title", {
+                  type: phoneType === "iphone" ? " iPhone" : " Android",
+                })}
               </CardTitle>
               <CardDescription>
-                選擇您的{phoneType === "iphone" ? " iPhone" : " Android"}機型，自動套用對應的
-                {inputs.purchase_mode === "new" ? "官方" : "二手市場"}價格和折舊率
+                {t("phoneModel.description", {
+                  type: phoneType === "iphone" ? " iPhone" : " Android",
+                  mode: inputs.purchase_mode === "new" ? t("phoneModel.official") : t("phoneModel.secondhand"),
+                })}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -546,13 +548,12 @@ export default function PhoneCalculator() {
                       <div className="font-medium">{model.name}</div>
                       <div className="text-sm text-muted-foreground">
                         {purchaseMode === "new"
-                          ? `NT$ ${model.basePrice.toLocaleString()}`
-                          : `NT$ ${model.usedBasePrice.toLocaleString()}`}
+                          ? `${t("common.currency")} ${model.basePrice.toLocaleString()}`
+                          : `${t("common.currency")} ${model.usedBasePrice.toLocaleString()}`}
                       </div>
                     </Button>
                   ))}
 
-                  {/* iPhone Air section */}
                   {iPhoneAirModels.map((model) => (
                     <Button
                       key={model.name}
@@ -572,15 +573,15 @@ export default function PhoneCalculator() {
                       <div className="font-medium">{model.name}</div>
                       <div className="text-sm text-muted-foreground">
                         {purchaseMode === "new"
-                          ? `NT$ ${model.basePrice.toLocaleString()}`
-                          : `NT$ ${model.usedBasePrice.toLocaleString()}`}
+                          ? `${t("common.currency")} ${model.basePrice.toLocaleString()}`
+                          : `${t("common.currency")} ${model.usedBasePrice.toLocaleString()}`}
                       </div>
                     </Button>
                   ))}
                 </div>
               ) : (
                 <div className="grid md:grid-cols-4 gap-3">
-                  {androidModels.map((model) => (
+                  {allAndroidModels.map((model) => (
                     <div key={model.name} className="space-y-2">
                       <div className="text-sm font-medium text-center">{model.name}</div>
                       <div className="grid grid-cols-1 gap-2">
@@ -590,7 +591,9 @@ export default function PhoneCalculator() {
                           onClick={() => applyAndroidModel(model.name, false)}
                           className="text-xs h-8"
                         >
-                          {model.category === "mid" || model.category === "budget" ? "標準版" : "標準版"}
+                          {model.category === "mid" || model.category === "budget"
+                            ? t("common.standard")
+                            : t("common.standard")}
                           <div className="text-xs text-muted-foreground ml-1">
                             {formatCurrency(inputs.purchase_mode === "new" ? model.basePrice : model.usedBasePrice)}
                           </div>
@@ -602,7 +605,7 @@ export default function PhoneCalculator() {
                             onClick={() => applyAndroidModel(model.name, true)}
                             className="text-xs h-8"
                           >
-                            Pro/Ultra
+                            {t("common.pro")}
                             <div className="text-xs text-muted-foreground ml-1">
                               {formatCurrency(inputs.purchase_mode === "new" ? model.proPrice : model.usedProPrice!)}
                             </div>
@@ -610,9 +613,15 @@ export default function PhoneCalculator() {
                         )}
                       </div>
                       <div className="text-xs text-center text-muted-foreground">
-                        年折舊 {(model.depreciationRate * 100).toFixed(1)}%
+                        {t("common.annualDepreciation")} {(model.depreciationRate * 100).toFixed(1)}%
                         <div className="text-xs">
-                          ({model.category === "flagship" ? "旗艦" : model.category === "mid" ? "中階" : "平價"})
+                          (
+                          {model.category === "flagship"
+                            ? t("common.flagship")
+                            : model.category === "mid"
+                              ? t("common.midrange")
+                              : t("common.budget")}
+                          )
                         </div>
                       </div>
                     </div>
@@ -621,10 +630,10 @@ export default function PhoneCalculator() {
               )}
               {phoneType === "android" && (
                 <div className="mt-4 text-xs text-muted-foreground bg-muted p-3 rounded">
-                  <div className="font-medium mb-1">Android 折舊率說明：</div>
-                  <div>• 旗艦機 (Galaxy S/Pixel): 50-65% 年折舊率，Pro 版通常保值 5% 更好</div>
-                  <div>• 中階機: 約 50% 年折舊率，價格親民但保值性較低</div>
-                  <div>• 二手 Android 建議使用 10% 恆定折舊率（已過初期貶值期）</div>
+                  <div className="font-medium mb-1">{t("phoneModel.androidDepreciationInfo.title")}</div>
+                  <div>{t("phoneModel.androidDepreciationInfo.flagship")}</div>
+                  <div>{t("phoneModel.androidDepreciationInfo.midrange")}</div>
+                  <div>{t("phoneModel.androidDepreciationInfo.used")}</div>
                 </div>
               )}
             </CardContent>
@@ -635,17 +644,20 @@ export default function PhoneCalculator() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calculator className="h-5 w-5" />
-                  計算參數設定
+                  {t("calculator.title")}
                 </CardTitle>
-                <CardDescription>請輸入您的手機購買和使用相關資訊</CardDescription>
+                <CardDescription>{t("calculator.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-foreground">基本資訊</h3>
+                  <h3 className="font-semibold text-foreground">{t("calculator.basicInfo")}</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="P_buy">
-                        {inputs.purchase_mode === "new" ? "購買價格" : "二手購入價格"} (NT$)
+                        {inputs.purchase_mode === "new"
+                          ? t("calculator.purchasePrice")
+                          : t("calculator.usedPurchasePrice")}{" "}
+                        ({t("common.currency")})
                       </Label>
                       <Input
                         id="P_buy"
@@ -656,7 +668,7 @@ export default function PhoneCalculator() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="T">持有年數</Label>
+                      <Label htmlFor="T">{t("calculator.holdingYears")}</Label>
                       <Input
                         id="T"
                         type="number"
@@ -672,10 +684,10 @@ export default function PhoneCalculator() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-foreground">折舊模型</h3>
+                  <h3 className="font-semibold text-foreground">{t("calculator.depreciationModel")}</h3>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label>折舊計算方式</Label>
+                      <Label>{t("calculator.depreciationMethod")}</Label>
                       <div className="grid grid-cols-3 gap-2">
                         <Button
                           variant="outline"
@@ -683,7 +695,7 @@ export default function PhoneCalculator() {
                           onClick={() => handleInputChange("model_depreciation", "tiered")}
                           className="text-xs"
                         >
-                          階段式折舊 (推薦)
+                          {t("calculator.tieredDepreciation")}
                         </Button>
                         <Button
                           variant="outline"
@@ -691,7 +703,7 @@ export default function PhoneCalculator() {
                           onClick={() => handleInputChange("model_depreciation", "exponential")}
                           className="text-xs"
                         >
-                          指數折舊
+                          {t("calculator.exponentialDepreciation")}
                         </Button>
                         <Button
                           variant="outline"
@@ -699,15 +711,15 @@ export default function PhoneCalculator() {
                           onClick={() => handleInputChange("model_depreciation", "linear")}
                           className="text-xs"
                         >
-                          線性折舊
+                          {t("calculator.linearDepreciation")}
                         </Button>
                       </div>
                       {inputs.model_depreciation === "tiered" && (
                         <div className="text-xs text-muted-foreground bg-muted p-3 rounded">
-                          <div className="font-medium mb-1">階段式折舊說明：</div>
-                          <div>• 第1年：45% 折舊（新機貶值最快）</div>
-                          <div>• 第2年：25% 折舊（趨於穩定）</div>
-                          <div>• 第3年後：每年10% 折舊（穩定期）</div>
+                          <div className="font-medium mb-1">{t("calculator.tieredDepreciationInfo.title")}</div>
+                          <div>{t("calculator.tieredDepreciationInfo.year1")}</div>
+                          <div>{t("calculator.tieredDepreciationInfo.year2")}</div>
+                          <div>{t("calculator.tieredDepreciationInfo.year3")}</div>
                         </div>
                       )}
                     </div>
@@ -715,7 +727,7 @@ export default function PhoneCalculator() {
                     {inputs.model_depreciation === "exponential" ? (
                       <div className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="r">年折舊率 (%)</Label>
+                          <Label htmlFor="r">{t("calculator.annualDepreciationRate")}</Label>
                           <Input
                             id="r"
                             type="number"
@@ -727,7 +739,7 @@ export default function PhoneCalculator() {
                         </div>
                         {inputs.purchase_mode === "used" && (
                           <div className="space-y-2">
-                            <Label>快速設定折舊率</Label>
+                            <Label>{t("calculator.quickSetDepreciationRate")}</Label>
                             <div className="grid grid-cols-3 gap-2">
                               <Button
                                 variant="outline"
@@ -735,7 +747,7 @@ export default function PhoneCalculator() {
                                 onClick={() => applyDepreciationPreset(0.12)}
                                 className="text-xs"
                               >
-                                樂觀 12%
+                                {t("calculator.optimistic")}
                               </Button>
                               <Button
                                 variant="outline"
@@ -743,7 +755,7 @@ export default function PhoneCalculator() {
                                 onClick={() => applyDepreciationPreset(0.15)}
                                 className="text-xs"
                               >
-                                基準 15%
+                                {t("calculator.baseline")}
                               </Button>
                               <Button
                                 variant="outline"
@@ -751,16 +763,18 @@ export default function PhoneCalculator() {
                                 onClick={() => applyDepreciationPreset(0.2)}
                                 className="text-xs"
                               >
-                                保守 20%
+                                {t("calculator.conservative")}
                               </Button>
                             </div>
-                            <div className="text-xs text-muted-foreground">* 可參考相鄰世代二手價差異進行校正</div>
+                            <div className="text-xs text-muted-foreground">{t("calculator.depreciationNote")}</div>
                           </div>
                         )}
                       </div>
                     ) : inputs.model_depreciation === "linear" ? (
                       <div className="space-y-2">
-                        <Label htmlFor="linear_d">每年折舊金額 (NT$)</Label>
+                        <Label htmlFor="linear_d">
+                          {t("calculator.annualDepreciationAmount")}
+                        </Label>
                         <Input
                           id="linear_d"
                           type="number"
@@ -776,9 +790,9 @@ export default function PhoneCalculator() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-foreground">賣出成本</h3>
+                  <h3 className="font-semibold text-foreground">{t("calculator.resaleCost")}</h3>
                   <div className="space-y-3">
-                    <Label>快速設定平台手續費</Label>
+                    <Label>{t("calculator.quickSetPlatformFee")}</Label>
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
@@ -789,8 +803,8 @@ export default function PhoneCalculator() {
                         }}
                         className="text-xs h-auto p-2 flex-col"
                       >
-                        <div className="font-medium">露天拍賣</div>
-                        <div className="text-xs text-muted-foreground">3% + 運費</div>
+                        <div className="font-medium">{t("calculator.ruten")}</div>
+                        <div className="text-xs text-muted-foreground">{t("calculator.rutenDesc")}</div>
                       </Button>
                       <Button
                         variant="outline"
@@ -801,8 +815,8 @@ export default function PhoneCalculator() {
                         }}
                         className="text-xs h-auto p-2 flex-col"
                       >
-                        <div className="font-medium">蝦皮購物</div>
-                        <div className="text-xs text-muted-foreground">7.5% (非促銷)</div>
+                        <div className="font-medium">{t("calculator.shopee")}</div>
+                        <div className="text-xs text-muted-foreground">{t("calculator.shopeeDesc")}</div>
                       </Button>
                       <Button
                         variant="outline"
@@ -813,8 +827,8 @@ export default function PhoneCalculator() {
                         }}
                         className="text-xs h-auto p-2 flex-col"
                       >
-                        <div className="font-medium">蝦皮促銷期</div>
-                        <div className="text-xs text-muted-foreground">9.5% (7.5%+2%)</div>
+                        <div className="font-medium">{t("calculator.shopeePromo")}</div>
+                        <div className="text-xs text-muted-foreground">{t("calculator.shopeePromoDesc")}</div>
                       </Button>
                       <Button
                         variant="outline"
@@ -825,21 +839,21 @@ export default function PhoneCalculator() {
                         }}
                         className="text-xs h-auto p-2 flex-col"
                       >
-                        <div className="font-medium">其他平台</div>
-                        <div className="text-xs text-muted-foreground">5% + 運費</div>
+                        <div className="font-medium">{t("calculator.otherPlatform")}</div>
+                        <div className="text-xs text-muted-foreground">{t("calculator.otherPlatformDesc")}</div>
                       </Button>
                     </div>
                     <div className="text-xs text-muted-foreground bg-muted p-3 rounded">
-                      <div className="font-medium mb-1">蝦皮手續費說明：</div>
-                      <div>• 非促銷期：成交手續費 5.5% + 金流服務費 2% = 7.5%</div>
-                      <div>• 促銷檔期：成交手續費 7.5% + 金流服務費 2% = 9.5%</div>
-                      <div>• 部分商品有 NT$15,000 手續費計算上限</div>
+                      <div className="font-medium mb-1">{t("calculator.shopeeFeeInfo.title")}</div>
+                      <div>{t("calculator.shopeeFeeInfo.normal")}</div>
+                      <div>{t("calculator.shopeeFeeInfo.promo")}</div>
+                      <div>{t("calculator.shopeeFeeInfo.cap")}</div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="fee_pct">平台手續費 (%)</Label>
+                      <Label htmlFor="fee_pct">{t("calculator.platformFee")}</Label>
                       <Input
                         id="fee_pct"
                         type="number"
@@ -850,7 +864,9 @@ export default function PhoneCalculator() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="cost_ship">運費/包材 (NT$)</Label>
+                      <Label htmlFor="cost_ship">
+                        {t("calculator.shippingFee")}
+                      </Label>
                       <Input
                         id="cost_ship"
                         type="number"
@@ -871,14 +887,14 @@ export default function PhoneCalculator() {
                         className="rounded border-border"
                       />
                       <Label htmlFor="use_tradein">
-                        使用門市 Trade-in 回收
-                        <span className="text-xs text-muted-foreground ml-1">(如US3C、Landtop等)</span>
+                        {t("calculator.useTradeIn")}
+                        <span className="text-xs text-muted-foreground ml-1">{t("calculator.tradeInNote")}</span>
                       </Label>
                     </div>
 
                     {inputs.use_tradein && (
                       <div className="space-y-2">
-                        <Label htmlFor="alpha_tradein">Trade-in 回收比例 (%)</Label>
+                        <Label htmlFor="alpha_tradein">{t("calculator.tradeInRatio")}</Label>
                         <Input
                           id="alpha_tradein"
                           type="number"
@@ -895,10 +911,10 @@ export default function PhoneCalculator() {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-foreground">維護成本</h3>
+                  <h3 className="font-semibold text-foreground">{t("calculator.maintenanceCost")}</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="C_maint_yearly">年維護費 (NT$)</Label>
+                      <Label htmlFor="C_maint_yearly">{t("calculator.annualMaintenanceFee")}</Label>
                       <Input
                         id="C_maint_yearly"
                         type="number"
@@ -909,8 +925,10 @@ export default function PhoneCalculator() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="C_battery_oneoff">
-                        電池維修費 (NT$)
-                        <span className="text-xs text-muted-foreground ml-1">(約2,000-3,350元)</span>
+                        {t("calculator.batteryReplacementFee")}
+                        <span className="text-xs text-muted-foreground ml-1">
+                          {t("calculator.batteryReplacementNote")}
+                        </span>
                       </Label>
                       <Input
                         id="C_battery_oneoff"
@@ -929,21 +947,21 @@ export default function PhoneCalculator() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingDown className="h-5 w-5" />
-                  計算結果
+                  {t("results.title")}
                 </CardTitle>
-                <CardDescription>您的手機持有成本分析</CardDescription>
+                <CardDescription>{t("results.description")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-muted p-4 rounded-lg">
-                      <div className="text-sm text-muted-foreground">總持有成本</div>
+                      <div className="text-sm text-muted-foreground">{t("results.totalOwnershipCost")}</div>
                       <div className="text-2xl font-bold text-foreground">
                         {formatCurrency(results?.totalCost || 0)}
                       </div>
                     </div>
                     <div className="bg-muted p-4 rounded-lg">
-                      <div className="text-sm text-muted-foreground">月均成本</div>
+                      <div className="text-sm text-muted-foreground">{t("results.monthlyAverageCost")}</div>
                       <div className="text-2xl font-bold text-foreground">
                         {formatCurrency(results?.monthlyCost || 0)}
                       </div>
@@ -953,23 +971,25 @@ export default function PhoneCalculator() {
                   <Separator />
 
                   <div className="space-y-4">
-                    <h3 className="font-semibold text-foreground">詳細分析</h3>
+                    <h3 className="font-semibold text-foreground">{t("results.detailedAnalysis")}</h3>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">預估 {inputs.T} 年後市價</span>
+                        <span className="text-muted-foreground">
+                          {t("results.estimatedPriceAfterYears", { years: inputs.T })}
+                        </span>
                         <span className="font-medium text-foreground">{formatCurrency(results?.priceAtT || 0)}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">賣出後實得金額</span>
+                        <span className="text-muted-foreground">{t("results.netResaleAmount")}</span>
                         <span className="font-medium text-foreground">{formatCurrency(results?.resaleNet || 0)}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">年均持有成本</span>
+                        <span className="text-muted-foreground">{t("results.annualOwnershipCost")}</span>
                         <span className="font-medium text-foreground">{formatCurrency(results?.annualCost || 0)}</span>
                       </div>
                       {results?.npvTotalCost && (
                         <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">折現後總成本</span>
+                          <span className="text-muted-foreground">{t("results.discountedTotalCost")}</span>
                           <span className="font-medium text-foreground">{formatCurrency(results.npvTotalCost)}</span>
                         </div>
                       )}
@@ -977,27 +997,27 @@ export default function PhoneCalculator() {
                   </div>
 
                   <div className="bg-muted p-4 rounded-lg">
-                    <h4 className="font-medium mb-3">成本組成</h4>
+                    <h4 className="font-medium mb-3">{t("results.costBreakdown")}</h4>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span>購買成本</span>
+                        <span>{t("results.purchaseCost")}</span>
                         <span className="text-foreground">{formatCurrency(inputs.P_buy)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span>回收價值</span>
+                        <span>{t("results.resaleValue")}</span>
                         <span className="text-green-700 dark:text-green-400">
                           -{formatCurrency(results?.resaleNet || 0)}
                         </span>
                       </div>
                       {inputs.C_maint_yearly > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span>維護費用</span>
+                          <span>{t("results.maintenanceFee")}</span>
                           <span className="text-foreground">{formatCurrency(inputs.C_maint_yearly * inputs.T)}</span>
                         </div>
                       )}
                       {inputs.C_battery_oneoff > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span>電池維修</span>
+                          <span>{t("results.batteryReplacement")}</span>
                           <span className="text-foreground">{formatCurrency(inputs.C_battery_oneoff)}</span>
                         </div>
                       )}
@@ -1010,8 +1030,8 @@ export default function PhoneCalculator() {
 
           <Card className="bg-card">
             <CardHeader>
-              <CardTitle>快速預設情境</CardTitle>
-              <CardDescription>點擊下方按鈕快速套用常見的使用情境</CardDescription>
+              <CardTitle>{t("presets.title")}</CardTitle>
+              <CardDescription>{t("presets.description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-4 gap-4">
@@ -1034,8 +1054,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">每年換新機</div>
-                      <div className="text-sm text-muted-foreground">高折舊率，短持有期</div>
+                      <div className="font-medium">{t("presets.iphoneYearly.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.iphoneYearly.description")}</div>
                     </Button>
 
                     <Button
@@ -1055,8 +1075,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">長期使用</div>
-                      <div className="text-sm text-muted-foreground">包含維護和電池更換</div>
+                      <div className="font-medium">{t("presets.iphoneLongTerm.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.iphoneLongTerm.description")}</div>
                     </Button>
 
                     <Button
@@ -1076,8 +1096,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">二手市場售出</div>
-                      <div className="text-sm text-muted-foreground">透過拍賣平台賣出</div>
+                      <div className="font-medium">{t("presets.iphoneSecondhand.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.iphoneSecondhand.description")}</div>
                     </Button>
 
                     <Button
@@ -1096,8 +1116,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">Trade-in 回收</div>
-                      <div className="text-sm text-muted-foreground">門市直接回收換購</div>
+                      <div className="font-medium">{t("presets.iphoneTradeIn.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.iphoneTradeIn.description")}</div>
                     </Button>
                   </>
                 ) : (
@@ -1119,8 +1139,10 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">二手機長期使用</div>
-                      <div className="text-sm text-muted-foreground">Galaxy S23 持有3年含換電池</div>
+                      <div className="font-medium">{t("presets.androidUsedLongTerm.title")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {t("presets.androidUsedLongTerm.description")}
+                      </div>
                     </Button>
 
                     <Button
@@ -1140,8 +1162,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">樂觀情境</div>
-                      <div className="text-sm text-muted-foreground">Galaxy S24 低折舊率</div>
+                      <div className="font-medium">{t("presets.androidOptimistic.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.androidOptimistic.description")}</div>
                     </Button>
 
                     <Button
@@ -1161,8 +1183,10 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">保守情境</div>
-                      <div className="text-sm text-muted-foreground">Pixel 8 高折舊率</div>
+                      <div className="font-medium">{t("presets.androidConservative.title")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {t("presets.androidConservative.description")}
+                      </div>
                     </Button>
 
                     <Button
@@ -1183,8 +1207,8 @@ export default function PhoneCalculator() {
                       }}
                       className="h-auto p-4 flex-col items-start"
                     >
-                      <div className="font-medium">門市回收</div>
-                      <div className="text-sm text-muted-foreground">US3C/Landtop等回收</div>
+                      <div className="font-medium">{t("presets.androidTradeIn.title")}</div>
+                      <div className="text-sm text-muted-foreground">{t("presets.androidTradeIn.description")}</div>
                     </Button>
                   </>
                 )}
@@ -1198,7 +1222,7 @@ export default function PhoneCalculator() {
         <div className="mx-auto max-w-6xl px-4 py-6">
           <div className="flex flex-col items-center justify-center space-y-2">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>開源專案</span>
+              <span>{t("footer.openSource")}</span>
               <a
                 href="https://github.com/Yukaii/deprecalc"
                 target="_blank"
@@ -1206,10 +1230,10 @@ export default function PhoneCalculator() {
                 className="inline-flex items-center space-x-1 hover:text-foreground transition-colors"
               >
                 <Github className="h-4 w-4" />
-                <span>GitHub</span>
+                <span>{t("footer.github")}</span>
               </a>
             </div>
-            <p className="text-xs text-muted-foreground">DeprecCalc - 手機折舊成本計算器</p>
+            <p className="text-xs text-muted-foreground">{t("footer.projectName")}</p>
           </div>
         </div>
       </footer>
