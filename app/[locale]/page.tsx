@@ -72,8 +72,8 @@ const iPhoneModels: iPhoneModel[] = [
     proPrice: 33900,
     depreciationRate: 0.438,
     proAdjustment: -0.06,
-    usedBasePrice: 7800,
-    usedProPrice: 9500,
+    usedBasePrice: 10000,
+    usedProPrice: 13000,
   },
   {
     name: "iPhone 13",
@@ -81,8 +81,8 @@ const iPhoneModels: iPhoneModel[] = [
     proPrice: 31900,
     depreciationRate: 0.462,
     proAdjustment: -0.06,
-    usedBasePrice: 10000,
-    usedProPrice: 12000,
+    usedBasePrice: 13000,
+    usedProPrice: 16000,
   },
   {
     name: "iPhone 14",
@@ -90,8 +90,8 @@ const iPhoneModels: iPhoneModel[] = [
     proPrice: 34900,
     depreciationRate: 0.477,
     proAdjustment: -0.06,
-    usedBasePrice: 13000,
-    usedProPrice: 15500,
+    usedBasePrice: 16500,
+    usedProPrice: 20000,
   },
   {
     name: "iPhone 15",
@@ -99,8 +99,8 @@ const iPhoneModels: iPhoneModel[] = [
     proPrice: 36900,
     depreciationRate: 0.482,
     proAdjustment: -0.06,
-    usedBasePrice: 16000,
-    usedProPrice: 19000,
+    usedBasePrice: 20000,
+    usedProPrice: 24000,
   },
   {
     name: "iPhone 16",
@@ -108,8 +108,8 @@ const iPhoneModels: iPhoneModel[] = [
     proPrice: 37900,
     depreciationRate: 0.45,
     proAdjustment: -0.06,
-    usedBasePrice: 18000,
-    usedProPrice: 21000,
+    usedBasePrice: 23000,
+    usedProPrice: 27000,
   },
   {
     name: "iPhone 17",
@@ -138,8 +138,8 @@ const androidModels: AndroidModel[] = [
     proPrice: 35900,
     depreciationRate: 0.6,
     proAdjustment: -0.05,
-    usedBasePrice: 15000,
-    usedProPrice: 18000,
+    usedBasePrice: 18000,
+    usedProPrice: 22000,
     category: "flagship",
   },
   {
@@ -148,8 +148,8 @@ const androidModels: AndroidModel[] = [
     proPrice: 32900,
     depreciationRate: 0.6,
     proAdjustment: -0.05,
-    usedBasePrice: 12000,
-    usedProPrice: 15000,
+    usedBasePrice: 14500,
+    usedProPrice: 18000,
     category: "flagship",
   },
   {
@@ -158,8 +158,8 @@ const androidModels: AndroidModel[] = [
     proPrice: 31900,
     depreciationRate: 0.55,
     proAdjustment: -0.05,
-    usedBasePrice: 11000,
-    usedProPrice: 14000,
+    usedBasePrice: 13500,
+    usedProPrice: 17000,
     category: "flagship",
   },
   {
@@ -168,8 +168,8 @@ const androidModels: AndroidModel[] = [
     proPrice: 26900,
     depreciationRate: 0.55,
     proAdjustment: -0.05,
-    usedBasePrice: 8500,
-    usedProPrice: 11000,
+    usedBasePrice: 10500,
+    usedProPrice: 13500,
     category: "flagship",
   },
   {
@@ -177,7 +177,7 @@ const androidModels: AndroidModel[] = [
     basePrice: 22900,
     depreciationRate: 0.5,
     proAdjustment: 0,
-    usedBasePrice: 10000,
+    usedBasePrice: 13000,
     category: "flagship",
   },
 ]
@@ -1127,7 +1127,7 @@ export default function PhoneCalculator() {
                       onClick={() => {
                         setInputs({
                           ...inputs,
-                          P_buy: 10000,
+                          P_buy: 13000,
                           T: 3,
                           r: 0.15,
                           fee_pct: 0.03,
@@ -1150,7 +1150,7 @@ export default function PhoneCalculator() {
                       onClick={() => {
                         setInputs({
                           ...inputs,
-                          P_buy: 7800,
+                          P_buy: 10000,
                           T: 2,
                           r: 0.12,
                           fee_pct: 0.03,
@@ -1171,7 +1171,7 @@ export default function PhoneCalculator() {
                       onClick={() => {
                         setInputs({
                           ...inputs,
-                          P_buy: 16000,
+                          P_buy: 18000,
                           T: 1.5,
                           r: 0.2,
                           fee_pct: 0.03,
@@ -1194,7 +1194,7 @@ export default function PhoneCalculator() {
                       onClick={() => {
                         setInputs({
                           ...inputs,
-                          P_buy: 12000,
+                          P_buy: 14500,
                           T: 2,
                           r: 0.15,
                           fee_pct: 0,
