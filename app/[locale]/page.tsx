@@ -416,7 +416,7 @@ export default function PhoneCalculator() {
     <div className="min-h-screen bg-background">
       <div className="p-4">
         <div className="mx-auto max-w-6xl space-y-8">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center relative">
             <LanguageSwitcher />
             <ThemeToggle />
           </div>
