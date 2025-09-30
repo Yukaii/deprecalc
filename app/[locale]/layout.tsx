@@ -9,6 +9,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { locales } from "@/i18n/request"
+import { LoadingPage } from "@/components/loading"
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -55,7 +56,7 @@ export default async function LocaleLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            <Suspense fallback={<LoadingPage />}>{children}</Suspense>
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />

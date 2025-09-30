@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Suspense } from "react"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LoadingPage } from "@/components/loading"
 
 export const metadata: Metadata = {
   title: "DeprecCalc - 手機折舊成本計算器",
@@ -29,7 +30,7 @@ export default function RootLayout({
     <html lang="zh-TW">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Suspense fallback={<LoadingPage />}>{children}</Suspense>
         </ThemeProvider>
         <Analytics />
       </body>

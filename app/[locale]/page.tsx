@@ -446,7 +446,7 @@ export default function PhoneCalculator() {
                 >
                   <div className="font-medium">{t("phoneType.iphone")}</div>
                   <div
-                    className={`text-sm ${phoneType === "iphone" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
+                    className={`text-sm ${phoneType === "iphone" ? "text-primary-foreground" : "text-muted-foreground"}`}
                   >
                     {t("phoneType.iphoneDesc")}
                   </div>
@@ -458,7 +458,7 @@ export default function PhoneCalculator() {
                 >
                   <div className="font-medium">{t("phoneType.android")}</div>
                   <div
-                    className={`text-sm ${phoneType === "android" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
+                    className={`text-sm ${phoneType === "android" ? "text-primary-foreground" : "text-muted-foreground"}`}
                   >
                     {t("phoneType.androidDesc")}
                   </div>
@@ -484,7 +484,7 @@ export default function PhoneCalculator() {
                 >
                   <div className="font-medium">{t("purchaseMode.new")}</div>
                   <div
-                    className={`text-sm ${inputs.purchase_mode === "new" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
+                    className={`text-sm ${inputs.purchase_mode === "new" ? "text-primary-foreground" : "text-muted-foreground"}`}
                   >
                     {t("purchaseMode.newDesc")}
                   </div>
@@ -496,7 +496,7 @@ export default function PhoneCalculator() {
                 >
                   <div className="font-medium">{t("purchaseMode.used")}</div>
                   <div
-                    className={`text-sm ${inputs.purchase_mode === "used" ? "text-primary-foreground/80" : "text-muted-foreground"}`}
+                    className={`text-sm ${inputs.purchase_mode === "used" ? "text-primary-foreground" : "text-muted-foreground"}`}
                   >
                     {t("purchaseMode.usedDesc")}
                   </div>
