@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Smartphone, Calculator, TrendingDown, Github, ShoppingCart } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { LanguageSwitcher } from "@/components/language-switcher"
 
 interface CalculatorInputs {
@@ -271,8 +271,16 @@ function totalCostHold(params: CalculatorInputs): CalculatorResults {
   }
 }
 
+// Currency conversion rates (approximation, TWD as baseline)
+const CURRENCY_RATES = {
+  "zh-TW": { currency: "TWD", rate: 1, symbol: "NT$", defaultShipping: 200 },
+  en: { currency: "USD", rate: 0.032, symbol: "$", defaultShipping: 7 }, // ~200 TWD ≈ 7 USD
+  ja: { currency: "JPY", rate: 4.7, symbol: "¥", defaultShipping: 950 }, // ~200 TWD ≈ 950 JPY
+}
+
 export default function PhoneCalculator() {
   const t = useTranslations()
+  const locale = useLocale()
 
   const [inputs, setInputs] = useState<CalculatorInputs>({
     P_buy: 30000,
@@ -391,13 +399,33 @@ export default function PhoneCalculator() {
     setInputs((prev) => ({ ...prev, r: rate }))
   }
 
+  // Get currency info based on locale
+  const getCurrencyInfo = () => {
+    return CURRENCY_RATES[locale as keyof typeof CURRENCY_RATES] || CURRENCY_RATES["zh-TW"]
+  }
+
+  // Convert TWD amount to current locale currency
+  const convertCurrency = (twdAmount: number) => {
+    const { rate } = getCurrencyInfo()
+    return Math.round(twdAmount * rate)
+  }
+
+  // Convert current locale currency back to TWD
+  const convertToTWD = (localAmount: number) => {
+    const { rate } = getCurrencyInfo()
+    return Math.round(localAmount / rate)
+  }
+
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("zh-TW", {
+    const { currency, symbol } = getCurrencyInfo()
+    const convertedAmount = convertCurrency(amount)
+
+    return new Intl.NumberFormat(locale, {
       style: "currency",
-      currency: "TWD",
+      currency: currency,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(amount)
+    }).format(convertedAmount)
   }
 
   // Add midrange Android model with translation
@@ -548,8 +576,8 @@ export default function PhoneCalculator() {
                       <div className="font-medium">{model.name}</div>
                       <div className="text-sm text-muted-foreground">
                         {purchaseMode === "new"
-                          ? `${t("common.currency")} ${model.basePrice.toLocaleString()}`
-                          : `${t("common.currency")} ${model.usedBasePrice.toLocaleString()}`}
+                          ? formatCurrency(model.basePrice)
+                          : formatCurrency(model.usedBasePrice)}
                       </div>
                     </Button>
                   ))}
@@ -573,8 +601,8 @@ export default function PhoneCalculator() {
                       <div className="font-medium">{model.name}</div>
                       <div className="text-sm text-muted-foreground">
                         {purchaseMode === "new"
-                          ? `${t("common.currency")} ${model.basePrice.toLocaleString()}`
-                          : `${t("common.currency")} ${model.usedBasePrice.toLocaleString()}`}
+                          ? formatCurrency(model.basePrice)
+                          : formatCurrency(model.usedBasePrice)}
                       </div>
                     </Button>
                   ))}
@@ -662,8 +690,8 @@ export default function PhoneCalculator() {
                       <Input
                         id="P_buy"
                         type="number"
-                        value={inputs.P_buy}
-                        onChange={(e) => handleInputChange("P_buy", Number(e.target.value))}
+                        value={convertCurrency(inputs.P_buy)}
+                        onChange={(e) => handleInputChange("P_buy", convertToTWD(Number(e.target.value)))}
                         className="bg-input"
                       />
                     </div>
@@ -778,8 +806,8 @@ export default function PhoneCalculator() {
                         <Input
                           id="linear_d"
                           type="number"
-                          value={inputs.linear_d}
-                          onChange={(e) => handleInputChange("linear_d", Number(e.target.value))}
+                          value={convertCurrency(inputs.linear_d)}
+                          onChange={(e) => handleInputChange("linear_d", convertToTWD(Number(e.target.value)))}
                           className="bg-input"
                         />
                       </div>
@@ -870,8 +898,8 @@ export default function PhoneCalculator() {
                       <Input
                         id="cost_ship"
                         type="number"
-                        value={inputs.cost_ship}
-                        onChange={(e) => handleInputChange("cost_ship", Number(e.target.value))}
+                        value={convertCurrency(inputs.cost_ship)}
+                        onChange={(e) => handleInputChange("cost_ship", convertToTWD(Number(e.target.value)))}
                         className="bg-input"
                       />
                     </div>
@@ -918,8 +946,8 @@ export default function PhoneCalculator() {
                       <Input
                         id="C_maint_yearly"
                         type="number"
-                        value={inputs.C_maint_yearly}
-                        onChange={(e) => handleInputChange("C_maint_yearly", Number(e.target.value))}
+                        value={convertCurrency(inputs.C_maint_yearly)}
+                        onChange={(e) => handleInputChange("C_maint_yearly", convertToTWD(Number(e.target.value)))}
                         className="bg-input"
                       />
                     </div>
@@ -933,8 +961,8 @@ export default function PhoneCalculator() {
                       <Input
                         id="C_battery_oneoff"
                         type="number"
-                        value={inputs.C_battery_oneoff}
-                        onChange={(e) => handleInputChange("C_battery_oneoff", Number(e.target.value))}
+                        value={convertCurrency(inputs.C_battery_oneoff)}
+                        onChange={(e) => handleInputChange("C_battery_oneoff", convertToTWD(Number(e.target.value)))}
                         className="bg-input"
                       />
                     </div>

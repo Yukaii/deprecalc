@@ -60,7 +60,7 @@
     "baseline": "基準 15%",
     "conservative": "保守 20%",
     "depreciationNote": "* 可參考相鄰世代二手價差異進行校正",
-    "annualDepreciationAmount": "每年折舊金額(NT$)",
+    "annualDepreciationAmount": "每年折舊金額",
     "resaleCost": "賣出成本",
     "quickSetPlatformFee": "快速設定平台手續費",
     "ruten": "露天拍賣",
@@ -78,14 +78,14 @@
       "cap": "• 部分商品有 NT$15,000 手續費計算上限"
     },
     "platformFee": "平台手續費(%)",
-    "shippingFee": "運費/包材(NT$)",
+    "shippingFee": "運費/包材",
     "useTradeIn": "使用門市 Trade-in 回收",
     "tradeInNote": "(如US3C、Landtop等)",
     "tradeInRatio": "Trade-in 回收比例(%)",
     "maintenanceCost": "維護成本",
-    "annualMaintenanceFee": "年維護費(NT$)",
-    "batteryReplacementFee": "電池維修費(NT$)",
-    "batteryReplacementNote": "(約2,000-3,350元)"
+    "annualMaintenanceFee": "年維護費",
+    "batteryReplacementFee": "電池維修費",
+    "batteryReplacementNote": "(約2,000-3,350)"
   },
   "results": {
     "title": "計算結果",

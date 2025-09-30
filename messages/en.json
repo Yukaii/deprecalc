@@ -60,7 +60,7 @@
     "baseline": "Baseline 15%",
     "conservative": "Conservative 20%",
     "depreciationNote": "* Can refer to price differences between adjacent generations for calibration",
-    "annualDepreciationAmount": "Annual Depreciation Amount (NT$)",
+    "annualDepreciationAmount": "Annual Depreciation Amount",
     "resaleCost": "Resale Cost",
     "quickSetPlatformFee": "Quick Set Platform Fee",
     "ruten": "Ruten Auction",
@@ -78,14 +78,14 @@
       "cap": "• Some items have NT$15,000 fee calculation cap"
     },
     "platformFee": "Platform Fee (%)",
-    "shippingFee": "Shipping/Packaging (NT$)",
+    "shippingFee": "Shipping/Packaging",
     "useTradeIn": "Use In-Store Trade-in Recycling",
     "tradeInNote": "(e.g., US3C, Landtop, etc.)",
     "tradeInRatio": "Trade-in Recycling Ratio (%)",
     "maintenanceCost": "Maintenance Cost",
-    "annualMaintenanceFee": "Annual Maintenance Fee (NT$)",
-    "batteryReplacementFee": "Battery Replacement Fee (NT$)",
-    "batteryReplacementNote": "(approx. 2,000-3,350 NT$)"
+    "annualMaintenanceFee": "Annual Maintenance Fee",
+    "batteryReplacementFee": "Battery Replacement Fee",
+    "batteryReplacementNote": "(approx. 2,000-3,350)"
   },
   "results": {
     "title": "Calculation Results",
@@ -148,7 +148,7 @@
     "midrangeAndroid": "Mid-range Android"
   },
   "common": {
-    "currency": "NT$",
+    "currency": "$",
     "standard": "Standard",
     "pro": "Pro/Ultra",
     "annualDepreciation": "Annual depreciation",

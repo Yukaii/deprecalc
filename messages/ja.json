@@ -60,7 +60,7 @@
     "baseline": "基準 15%",
     "conservative": "保守的 20%",
     "depreciationNote": "※隣接世代の中古価格差を参考に補正可能",
-    "annualDepreciationAmount": "年間減価償却額(NT$)",
+    "annualDepreciationAmount": "年間減価償却額",
     "resaleCost": "売却コスト",
     "quickSetPlatformFee": "プラットフォーム手数料クイック設定",
     "ruten": "露天オークション",
@@ -75,17 +75,17 @@
       "title": "蝦皮手数料について:",
       "normal": "• 非プロモ期: 取引手数料5.5% + 決済サービス料2% = 7.5%",
       "promo": "• プロモ期: 取引手数料7.5% + 決済サービス料2% = 9.5%",
-      "cap": "• 一部商品はNT$15,000の手数料計算上限あり"
+      "cap": "• 一部商品は15,000の手数料計算上限あり"
     },
     "platformFee": "プラットフォーム手数料(%)",
-    "shippingFee": "送料/梱包材(NT$)",
+    "shippingFee": "送料/梱包材",
     "useTradeIn": "店舗Trade-in下取りを利用",
     "tradeInNote": "(US3C、Landtopなど)",
     "tradeInRatio": "Trade-in下取り比率(%)",
     "maintenanceCost": "メンテナンスコスト",
-    "annualMaintenanceFee": "年間メンテナンス費(NT$)",
-    "batteryReplacementFee": "バッテリー交換費(NT$)",
-    "batteryReplacementNote": "(約2,000-3,350 NT$)"
+    "annualMaintenanceFee": "年間メンテナンス費",
+    "batteryReplacementFee": "バッテリー交換費",
+    "batteryReplacementNote": "(約2,000-3,350)"
   },
   "results": {
     "title": "計算結果",
@@ -148,7 +148,7 @@
     "midrangeAndroid": "ミッドレンジAndroid"
   },
   "common": {
-    "currency": "NT$",
+    "currency": "¥",
     "standard": "標準版",
     "pro": "Pro/Ultra",
     "annualDepreciation": "年間減価償却",
